@@ -7,13 +7,22 @@ unsigned int person_counter = 0;
 
 #define IR1_CHANNEL INCH_0  // P1.0 ADC kanalı
 
-unsigned int readADC(unsigned char channel) {
-    ADC10CTL0 = SREF_0 + ADC10SHT_3 + ADC10ON;
-    ADC10CTL1 = channel;
-    ADC10CTL0 |= ENC + ADC10SC;
-    while (ADC10CTL1 & ADC10BUSY);
-    return ADC10MEM;
+unsigned int readSensorA0(void)
+{
+    ADC10CTL1 = INCH_0;                  // Input channel A0
+    ADC10CTL0 = ADC10SHT_3 + ADC10ON + ADC10ENC + ADC10SC; // Start conversion
+    while (ADC10CTL1 & ADC10BUSY);       // Wait until done
+    return ADC10MEM;                     // Return result
 }
+
+unsigned int readSensorA1(void)
+{
+    ADC10CTL1 = INCH_1;                  // Input channel A1
+    ADC10CTL0 = ADC10SHT_3 + ADC10ON + ADC10ENC + ADC10SC; // Start conversion
+    while (ADC10CTL1 & ADC10BUSY);       // Wait until done
+    return ADC10MEM;                     // Return result
+}
+
 
 void delay_ms(unsigned int ms) {
     while (ms--) __delay_cycles(1000);
@@ -37,8 +46,8 @@ void main(void) {
 
     BCSCTL1 = CALBC1_1MHZ;
     DCOCTL = CALDCO_1MHZ;
-
-    ADC10AE0 |= BIT0;                                             
+   
+    ADC10AE0 |= BIT0 + BIT1;                                   
 
     I2C_Init();
     LCD_Init();
@@ -47,15 +56,17 @@ void main(void) {
     while (1) {
         char str_int[6];
 
-        adc_val = readADC(IR1_CHANNEL);
+        unsigned int val0 = readSensorA0();
+        unsigned int val1 = readSensorA1();
+
         intToStr(adc_val, str_int); 
         
-        if (adc_val > 400 && obstacle == 0) { 
+        if (val0 > 400 && obstacle == 0) { 
             person_counter++; 
             obstacle = 1;
         }
 
-        if (adc_val < 400 && obstacle == 1) {
+        if (val1 < 400 && obstacle == 1) {
             obstacle = 0;
         }
        
@@ -69,3 +80,4 @@ void main(void) {
         delay_ms(50);
     }
 }
+
