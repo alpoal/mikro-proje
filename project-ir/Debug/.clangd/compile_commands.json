@@ -1,0 +1,12 @@
+[
+   {
+      "directory" : "C:/Users/acer/workspace_ccstheia/project-ir/Debug",
+      "command"   : "clang++ -I\"C:/ti/ccs2010/ccs/ccs_base/msp430/include\" -I\"C:/Users/acer/workspace_ccstheia/project-ir\" -I\"C:/ti/ccs2010/ccs/tools/compiler/ti-cgt-msp430_21.6.1.LTS/include\" -D__MSP430G2553__",
+      "file"      : "C:/Users/acer/workspace_ccstheia/project-ir/main.c"
+   },
+   {
+      "directory" : "C:/Users/acer/workspace_ccstheia/project-ir/Debug",
+      "command"   : "clang++ -I\"C:/ti/ccs2010/ccs/ccs_base/msp430/include\" -I\"C:/Users/acer/workspace_ccstheia/project-ir\" -I\"C:/ti/ccs2010/ccs/tools/compiler/ti-cgt-msp430_21.6.1.LTS/include\" -D__MSP430G2553__",
+      "file"      : "C:/Users/acer/workspace_ccstheia/project-ir/lcd_i2c.c"
+   }
+]
