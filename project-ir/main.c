@@ -10,19 +10,20 @@ unsigned int person_counter = 0;
 unsigned int readSensorA0(void)
 {
     ADC10CTL1 = INCH_0;                  // Input channel A0
-    ADC10CTL0 = ADC10SHT_3 + ADC10ON + ADC10ENC + ADC10SC; // Start conversion
-    while (ADC10CTL1 & ADC10BUSY);       // Wait until done
-    return ADC10MEM;                     // Return result
+    ADC10CTL0 = ADC10SHT_3 + ADC10ON;   // Sample-and-hold time, ADC On
+    ADC10CTL0 |= ENC + ADC10SC;         // Enable and start conversion
+    while (ADC10CTL1 & ADC10BUSY);      // Wait for conversion to finish
+    return ADC10MEM;                    // Read result
 }
 
 unsigned int readSensorA1(void)
 {
     ADC10CTL1 = INCH_1;                  // Input channel A1
-    ADC10CTL0 = ADC10SHT_3 + ADC10ON + ADC10ENC + ADC10SC; // Start conversion
-    while (ADC10CTL1 & ADC10BUSY);       // Wait until done
-    return ADC10MEM;                     // Return result
+    ADC10CTL0 = ADC10SHT_3 + ADC10ON;
+    ADC10CTL0 |= ENC + ADC10SC;
+    while (ADC10CTL1 & ADC10BUSY);
+    return ADC10MEM;
 }
-
 
 void delay_ms(unsigned int ms) {
     while (ms--) __delay_cycles(1000);
